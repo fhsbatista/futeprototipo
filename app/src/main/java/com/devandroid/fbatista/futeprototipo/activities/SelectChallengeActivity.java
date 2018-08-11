@@ -1,9 +1,13 @@
 package com.devandroid.fbatista.futeprototipo.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.*;
+import android.util.Log;
+import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.devandroid.fbatista.futeprototipo.R;
 import com.devandroid.fbatista.futeprototipo.RecyclerItemClickListener;
@@ -15,10 +19,13 @@ import java.util.List;
 
 public class SelectChallengeActivity extends AppCompatActivity {
 
+    public static final String KEY_CHALLENGE = "challenge";
+    private static final String TAG = SelectChallengeActivity.class.getSimpleName();
+
     private RecyclerView mRecyclerView;
     private SelectChallengeAdapter adapter;
-    private List<Challenge> challenges;
-    private RecyclerItemClickListener.OnItemClickListener
+    private ArrayList<Challenge> challenges;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +40,7 @@ public class SelectChallengeActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(layoutManager);
 
         //Set the list of challenges
-        challenges = new ArrayList<>();
+        challenges = new ArrayList<Challenge>();
         challenges.add(new Challenge("1 Embaixadinha", 1, "Fazer uma embaixadinha"));
         challenges.add(new Challenge("3 Embaixadinha", 1, "Fazer 3 embaixadinhas, usandos pes diferentes"));
         challenges.add(new Challenge("10 Embaixadinha", 2, "Fazer 10 embaixadinhas, usando pes diferentes"));
@@ -45,7 +52,35 @@ public class SelectChallengeActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(adapter);
 
         //Set the click handler
-        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, mRecyclerView, ) {
+        mRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(
+                        this, mRecyclerView,
+                        new RecyclerItemClickListener.OnItemClickListener(){
+
+                            @Override
+                            public void onItemClick(View view, int position) {
+
+                                Toast.makeText(SelectChallengeActivity.this, "teste", Toast.LENGTH_SHORT).show();
+
+                                Intent intent = new Intent(getApplicationContext(), ChallengeActivity.class);
+                                intent.putExtra(KEY_CHALLENGE, challenges.get(position));
+                                startActivity(intent);
+
+
+
+
+                            }
+
+                            @Override
+                            public void onLongItemClick(View view, int position) {
+
+                            }
+
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                            }
+                        }) {
         });
     }
 

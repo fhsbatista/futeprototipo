@@ -1,6 +1,12 @@
 package com.devandroid.fbatista.futeprototipo.dao;
 
-public class Challenge {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
+
+public class Challenge implements Serializable {
 
     private String title;
     private int level;
@@ -13,6 +19,14 @@ public class Challenge {
 
     public Challenge(String title, int level, String description){
         this(title, level);
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -31,4 +45,6 @@ public class Challenge {
     public void setLevel(int level) {
         this.level = level;
     }
+
+
 }
