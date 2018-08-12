@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private FirebaseAuth auth;
+    private FirebaseUser currentUser;
 
 
 
@@ -38,18 +40,10 @@ public class MainActivity extends AppCompatActivity {
         mEmail = findViewById(R.id.et_email);
         mSenha = findViewById(R.id.et_senha);
 
+        auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
 
-
-
-
-
-
-
-
-
-
-
-    }
+        }
 
     public void buttonStartClick(View view){
 
@@ -59,7 +53,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    Toast.makeText(MainActivity.this, "Logado com sucesso", Toast.LENGTH_SHORT).show();
+
+                    startActivity(new Intent(MainActivity.this, SelectChallengeActivity.class));
+
+                } else{
+                    Toast.makeText(MainActivity.this, "Algo deu errado", Toast.LENGTH_SHORT).show();
+
                 }
             }
         });

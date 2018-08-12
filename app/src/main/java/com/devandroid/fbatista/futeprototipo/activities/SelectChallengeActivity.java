@@ -13,6 +13,8 @@ import com.devandroid.fbatista.futeprototipo.R;
 import com.devandroid.fbatista.futeprototipo.RecyclerItemClickListener;
 import com.devandroid.fbatista.futeprototipo.adapters.SelectChallengeAdapter;
 import com.devandroid.fbatista.futeprototipo.dao.Challenge;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +27,19 @@ public class SelectChallengeActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private SelectChallengeAdapter adapter;
     private ArrayList<Challenge> challenges;
+    private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_challenge);
+
+        //Get the current user
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+
 
         //Initialize the recycler view
         mRecyclerView = findViewById(R.id.rv);
@@ -59,16 +68,10 @@ public class SelectChallengeActivity extends AppCompatActivity {
 
                             @Override
                             public void onItemClick(View view, int position) {
-
                                 Toast.makeText(SelectChallengeActivity.this, "teste", Toast.LENGTH_SHORT).show();
-
                                 Intent intent = new Intent(getApplicationContext(), ChallengeActivity.class);
                                 intent.putExtra(KEY_CHALLENGE, challenges.get(position));
                                 startActivity(intent);
-
-
-
-
                             }
 
                             @Override
@@ -82,6 +85,11 @@ public class SelectChallengeActivity extends AppCompatActivity {
                             }
                         }) {
         });
+    }
+
+    public void buttonLogoutClick(View view){
+        mAuth.signOut();
+        finish();
     }
 
 

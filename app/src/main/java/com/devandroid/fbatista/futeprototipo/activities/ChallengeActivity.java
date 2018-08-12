@@ -64,12 +64,7 @@ public class ChallengeActivity extends AppCompatActivity {
 
     }
 
-    public void buttonTesteClick(View view){
-
-        if(mVideoViewVideo.canPause())
-            mVideoViewVideo.pause();
-
-    }
+    
 
 
     @Override
