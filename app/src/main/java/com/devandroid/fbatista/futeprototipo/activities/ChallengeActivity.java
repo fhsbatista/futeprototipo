@@ -43,11 +43,10 @@ public class ChallengeActivity extends AppCompatActivity {
         mTextViewTitle = findViewById(R.id.tv_title);
         mTextViewDescription = findViewById(R.id.tv_description);
         mTextViewLevel = findViewById(R.id.tv_level);
-        mButtonRecord = findViewById(R.id.bt_start);
+        mButtonRecord = findViewById(R.id.bt_gravar);
         mVideoViewVideo = findViewById(R.id.vv_video);
-android
-        //Settings of VideoView
-        mVideoViewVideo.setMediaController(new MediaController(this));
+
+
 
         mTextViewTitle.setText(challenge.getTitle());
         mTextViewDescription.setText(challenge.getDescription());
@@ -64,6 +63,14 @@ android
 
 
     }
+
+    public void buttonTesteClick(View view){
+
+        if(mVideoViewVideo.canPause())
+            mVideoViewVideo.pause();
+
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

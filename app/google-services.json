@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "23999594596",
+    "firebase_url": "https://futeprototipo.firebaseio.com",
+    "project_id": "futeprototipo",
+    "storage_bucket": "futeprototipo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:23999594596:android:7899ba283fdd32e2",
+        "android_client_info": {
+          "package_name": "com.devandroid.fbatista.futeprototipo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "23999594596-scbkvf4ptnscjf8d1j9dcr7du9la25bf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.devandroid.fbatista.futeprototipo",
+            "certificate_hash": "32d049273a66c1904361321e81476d8f16488fad"
+          }
+        },
+        {
+          "client_id": "23999594596-s5e5v30fua8isnfmbussglmclieag0nc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAV3MpMPFVZJIhDDbEePqOwj7kt4_3LX_c"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "23999594596-s5e5v30fua8isnfmbussglmclieag0nc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
