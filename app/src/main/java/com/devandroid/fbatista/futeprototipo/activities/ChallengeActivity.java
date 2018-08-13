@@ -3,6 +3,7 @@ package com.devandroid.fbatista.futeprototipo.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,15 @@ import android.widget.VideoView;
 
 import com.devandroid.fbatista.futeprototipo.R;
 import com.devandroid.fbatista.futeprototipo.dao.Challenge;
+import com.devandroid.fbatista.futeprototipo.dao.ParticipationChallenge;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.Serializable;
 
@@ -26,7 +36,16 @@ public class ChallengeActivity extends AppCompatActivity {
     private TextView mTextViewLevel;
     private Button mButtonRecord;
     private VideoView mVideoViewVideo;
+    private static final String idUser = "fernando";
+    private static final String idChallenge = "challenge1";
+    private static final String videoName = "video_challenge1";
 
+    private ParticipationChallenge participation;
+    private FirebaseStorage storage;
+    private StorageReference reference;
+    private StorageReference userRef;
+    private FirebaseDatabase db;
+    private DatabaseReference ref;
 
 
     @Override
@@ -64,7 +83,7 @@ public class ChallengeActivity extends AppCompatActivity {
 
     }
 
-    
+
 
 
     @Override
@@ -73,6 +92,40 @@ public class ChallengeActivity extends AppCompatActivity {
             Uri videoUri = data.getData();
             mVideoViewVideo.setVideoURI(videoUri);
             mVideoViewVideo.start();
+
+            //Set variables for Storage use
+            storage = FirebaseStorage.getInstance();
+            reference = storage.getReference();
+            userRef = reference.child(idUser).child(idChallenge).child(videoName);
+            UploadTask uploadTask = userRef.putFile(videoUri);
+
+            //Setting object model of the participation
+            participation = new ParticipationChallenge
+                    (idUser, idChallenge, ParticipationChallenge.STATUS_WAITING_APPROVEMENT, videoName);
+
+
+            //Set variables for Database use
+            db = FirebaseDatabase.getInstance();
+            ref = db.getReference()
+                    .child(idUser).child("participations").child(idChallenge);
+
+
+
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(ChallengeActivity.this, "An error has occurred when uploading", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    Toast.makeText(ChallengeActivity.this, "The video has been uploaded successfully", Toast.LENGTH_SHORT).show();
+                    //If the video has been uploaded succesfully, it will be registered as a participation waiting for approvement
+                    ref.setValue(participation);
+
+                }
+            });
+
         }
     }
 }

@@ -68,7 +68,6 @@ public class SelectChallengeActivity extends AppCompatActivity {
 
                             @Override
                             public void onItemClick(View view, int position) {
-                                Toast.makeText(SelectChallengeActivity.this, "teste", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(), ChallengeActivity.class);
                                 intent.putExtra(KEY_CHALLENGE, challenges.get(position));
                                 startActivity(intent);
