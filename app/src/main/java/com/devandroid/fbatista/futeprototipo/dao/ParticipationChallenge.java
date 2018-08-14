@@ -13,6 +13,9 @@ public class ParticipationChallenge implements Serializable {
     private String videoPath;
     private String status;
 
+    public ParticipationChallenge() {
+    }
+
     public ParticipationChallenge(String idUser, String idChallenge, String status, String videoPath) {
         this.idUser = idUser;
         this.idChallenge = idChallenge;

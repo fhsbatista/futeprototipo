@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.devandroid.fbatista.futeprototipo.R;
+import com.devandroid.fbatista.futeprototipo.config.ConfigFirebase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -27,10 +28,6 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseUser currentUser;
 
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,20 +40,26 @@ public class MainActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
 
-        }
+    }
 
-    public void buttonStartClick(View view){
+    @Override
+    protected void onStart() {
+        super.onStart();
+        validadeLoggedUser();
+    }
+
+    public void buttonStartClick(View view) {
 
         auth.signInWithEmailAndPassword(
                 mEmail.getText().toString(), mSenha.getText().toString()
         ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
 
                     startActivity(new Intent(MainActivity.this, SelectChallengeActivity.class));
 
-                } else{
+                } else {
                     Toast.makeText(MainActivity.this, "Algo deu errado", Toast.LENGTH_SHORT).show();
 
                 }
@@ -64,6 +67,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    public void validadeLoggedUser() {
+        auth = ConfigFirebase.getAuth();
+
+        if (auth.getCurrentUser() != null) {
+            startActivity(new Intent(MainActivity.this, SelectChallengeActivity.class));
+        }
     }
 
 

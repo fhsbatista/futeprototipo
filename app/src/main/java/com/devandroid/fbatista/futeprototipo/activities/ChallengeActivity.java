@@ -14,11 +14,13 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.devandroid.fbatista.futeprototipo.R;
+import com.devandroid.fbatista.futeprototipo.config.ConfigFirebase;
 import com.devandroid.fbatista.futeprototipo.dao.Challenge;
 import com.devandroid.fbatista.futeprototipo.dao.ParticipationChallenge;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -36,9 +38,9 @@ public class ChallengeActivity extends AppCompatActivity {
     private TextView mTextViewLevel;
     private Button mButtonRecord;
     private VideoView mVideoViewVideo;
-    private static final String idUser = "fernando";
-    private static final String idChallenge = "challenge1";
-    private static final String videoName = "video_challenge1";
+    private String idUser;
+    private String idChallenge;
+    private String videoName;
 
     private ParticipationChallenge participation;
     private FirebaseStorage storage;
@@ -46,6 +48,7 @@ public class ChallengeActivity extends AppCompatActivity {
     private StorageReference userRef;
     private FirebaseDatabase db;
     private DatabaseReference ref;
+    private FirebaseAuth mAuth;
 
 
     @Override
@@ -57,6 +60,9 @@ public class ChallengeActivity extends AppCompatActivity {
         //Retrieve data from previous activity
         Bundle bundle = getIntent().getExtras();
         Challenge challenge = (Challenge) bundle.getSerializable(SelectChallengeActivity.KEY_CHALLENGE);
+
+        //Set the authentication information
+        mAuth = ConfigFirebase.getAuth();
 
         //Set layout elements
         mTextViewTitle = findViewById(R.id.tv_title);
@@ -70,6 +76,11 @@ public class ChallengeActivity extends AppCompatActivity {
         mTextViewTitle.setText(challenge.getTitle());
         mTextViewDescription.setText(challenge.getDescription());
         mTextViewLevel.setText(String.valueOf(challenge.getLevel()));
+
+        //Set the strings for database
+        idChallenge = challenge.getIdChallenge();
+        idUser = mAuth.getCurrentUser().getEmail();
+        videoName = "video" + idChallenge;
 
     }
 
@@ -96,8 +107,8 @@ public class ChallengeActivity extends AppCompatActivity {
             //Set variables for Storage use
             storage = FirebaseStorage.getInstance();
             reference = storage.getReference();
-            userRef = reference.child(idUser).child(idChallenge).child(videoName);
-            UploadTask uploadTask = userRef.putFile(videoUri);
+            userRef = reference.child(idUser);;
+            UploadTask uploadTask = userRef.child(idChallenge).child(videoName).putFile(videoUri);
 
             //Setting object model of the participation
             participation = new ParticipationChallenge

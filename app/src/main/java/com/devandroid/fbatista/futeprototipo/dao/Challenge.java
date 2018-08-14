@@ -8,18 +8,27 @@ import java.io.Serializable;
 
 public class Challenge implements Serializable {
 
+    private String idChallenge;
     private String title;
     private int level;
     private String description;
 
-    public Challenge(String title, int level) {
-        this.title = title;
-        this.level = level;
+    public Challenge() {
     }
 
-    public Challenge(String title, int level, String description){
-        this(title, level);
+    public Challenge(String idChallenge, String title, int level, String description) {
+        this.idChallenge = idChallenge;
+        this.title = title;
+        this.level = level;
         this.description = description;
+    }
+
+    public String getIdChallenge() {
+        return idChallenge;
+    }
+
+    public void setIdChallenge(String idChallenge) {
+        this.idChallenge = idChallenge;
     }
 
     public String getDescription() {

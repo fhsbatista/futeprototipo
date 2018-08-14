@@ -9,14 +9,17 @@ import android.widget.TextView;
 
 import com.devandroid.fbatista.futeprototipo.R;
 import com.devandroid.fbatista.futeprototipo.dao.Challenge;
+import com.devandroid.fbatista.futeprototipo.dao.ChallengeForShowing;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
 public class SelectChallengeAdapter extends RecyclerView.Adapter<SelectChallengeAdapter.ViewHolder> {
 
-    private List<Challenge> mChallenges;
+    private List<ChallengeForShowing> mChallenges;
 
-    public SelectChallengeAdapter(List<Challenge> challenges){
+    public SelectChallengeAdapter(List<ChallengeForShowing> challenges){
         this.mChallenges = challenges;
     }
 
@@ -36,10 +39,15 @@ public class SelectChallengeAdapter extends RecyclerView.Adapter<SelectChallenge
     public void onBindViewHolder(@NonNull SelectChallengeAdapter.ViewHolder holder, int position) {
 
 
-        Challenge challenge = this.mChallenges.get(position);
+        ChallengeForShowing challenge = this.mChallenges.get(position);
 
         holder.title.setText(challenge.getTitle());
         holder.level.setText(String.valueOf(challenge.getLevel()));
+        holder.status.setText(challenge.getStatus());
+
+
+
+
 
 
 
@@ -55,11 +63,13 @@ public class SelectChallengeAdapter extends RecyclerView.Adapter<SelectChallenge
     {
         private TextView title;
         private TextView level;
+        private TextView status;
 
         public ViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.tv_challenge_description);
             level = itemView.findViewById(R.id.tv_challenge_level);
+            status = itemView.findViewById(R.id.tv_challenge_status);
         }
 
 
