@@ -74,6 +74,7 @@ public class SelectChallengeActivity extends AppCompatActivity {
 
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     ChallengeForShowing challenge = data.getValue(ChallengeForShowing.class);
+                    challenge.setIdChallenge(data.getKey());
 
                     //The method below will verify wheter the user has participate of the challenge
                     //If so, the status in the recycler view will be customized

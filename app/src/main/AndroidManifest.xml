@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.devandroid.fbatista.futeprototipo">
 
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.MainActivity">
+        <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.SelectChallengeActivity" />
-        <activity android:name=".activities.ChallengeActivity"></activity>
+        <activity android:name=".activities.ChallengeActivity" />
+        <activity android:name=".activities.SignUpActivity"></activity>
     </application>
 
 </manifest>

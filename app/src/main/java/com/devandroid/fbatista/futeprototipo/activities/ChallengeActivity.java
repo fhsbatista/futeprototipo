@@ -79,7 +79,8 @@ public class ChallengeActivity extends AppCompatActivity {
 
         //Set the strings for database
         idChallenge = challenge.getIdChallenge();
-        idUser = mAuth.getCurrentUser().getEmail();
+        String[] nameUser = mAuth.getCurrentUser().getEmail().split("@");
+        idUser = nameUser[0];
         videoName = "video" + idChallenge;
 
     }
