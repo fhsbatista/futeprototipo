@@ -1,10 +1,17 @@
 package com.devandroid.fbatista.futeprototipo.dao;
 
+import android.graphics.Bitmap;
+
 import com.devandroid.fbatista.futeprototipo.Keys;
 import com.devandroid.fbatista.futeprototipo.config.ConfigFirebase;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User implements Serializable{
 
@@ -22,8 +29,40 @@ public class User implements Serializable{
     }
 
     public void create(){
-        DatabaseReference dbRef = ConfigFirebase.getFirebaseDatabase();
-        dbRef.child(Keys.KEY_USERS).child(this.idUser).setValue(this);
+        final DatabaseReference dbRefUser = ConfigFirebase.getFirebaseDatabase()
+            .child(Keys.KEY_USERS).child(this.idUser);
+        dbRefUser.setValue(this);
+
+
+        final List<ParticipationChallenge> list = new ArrayList<>();
+        final DatabaseReference dbRefChallenges = ConfigFirebase.getFirebaseDatabase().child(Keys.KEY_CHALLENGES);
+
+        dbRefChallenges.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot data : dataSnapshot.getChildren()){
+                    ParticipationChallenge participationChallenge = data.getValue(ParticipationChallenge.class);
+                    participationChallenge.setStatus(ParticipationChallenge.STATUS_NOT_STARTED);
+                    list.add(participationChallenge);
+                }
+
+                for(ParticipationChallenge part : list){
+                    dbRefUser.child(Keys.KEY_USER_PARTICIPATION).child(part.getIdChallenge())
+                            .setValue(part);
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
     }
 
     public String getIdUser() {

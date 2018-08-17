@@ -7,11 +7,12 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.Serializable;
 
-public class ParticipationChallenge implements Serializable {
+public class ParticipationChallenge extends Challenge implements Serializable {
 
     public static final String STATUS_WAITING_APPROVEMENT = "Aguardando Aprovaçao";
     public static final String STATUS_REJECTED = "Participaçao nao Aprovada";
     public static final String STATUS_APPROVED = "Participaçao Aprovada";
+    public static final String STATUS_NOT_STARTED = "Sem participaçao";
 
     private String idUser;
     private String idChallenge;

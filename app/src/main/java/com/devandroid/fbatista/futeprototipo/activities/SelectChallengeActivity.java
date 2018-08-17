@@ -55,6 +55,8 @@ public class SelectChallengeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_challenge);
 
+        //Este e um teste
+
         //Get the current user
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
