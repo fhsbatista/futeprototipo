@@ -19,6 +19,7 @@ import com.devandroid.fbatista.futeprototipo.dao.Challenge;
 import com.devandroid.fbatista.futeprototipo.dao.ParticipationChallenge;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -46,8 +47,6 @@ public class ChallengeActivity extends AppCompatActivity {
     private FirebaseStorage storage;
     private StorageReference reference;
     private StorageReference userRef;
-    private FirebaseDatabase db;
-    private DatabaseReference ref;
     private FirebaseAuth mAuth;
 
 
@@ -79,8 +78,7 @@ public class ChallengeActivity extends AppCompatActivity {
 
         //Set the strings for database
         idChallenge = challenge.getIdChallenge();
-        String[] nameUser = mAuth.getCurrentUser().getEmail().split("@");
-        idUser = nameUser[0];
+        idUser = mAuth.getCurrentUser().getUid();
         videoName = "video" + idChallenge;
 
     }
@@ -111,32 +109,20 @@ public class ChallengeActivity extends AppCompatActivity {
             userRef = reference.child(idUser);;
             UploadTask uploadTask = userRef.child(idChallenge).child(videoName).putFile(videoUri);
 
-            //Setting object model of the participation
-            participation = new ParticipationChallenge
-                    (idUser, idChallenge, ParticipationChallenge.STATUS_WAITING_APPROVEMENT, videoName);
 
 
-            //Set variables for Database use
-            db = FirebaseDatabase.getInstance();
-            ref = db.getReference()
-                    .child(idUser).child("participations").child(idChallenge);
-
-
-
-            uploadTask.addOnFailureListener(new OnFailureListener() {
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(ChallengeActivity.this, "An error has occurred when uploading", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                    Toast.makeText(ChallengeActivity.this, "The video has been uploaded successfully", Toast.LENGTH_SHORT).show();
-                    //If the video has been uploaded succesfully, it will be registered as a participation waiting for approvement
-                    ref.setValue(participation);
-
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    //Setting object model of the participation
+                    //Get the url of the video which has been uploaded
+                    String url = taskSnapshot.getDownloadUrl().toString();
+                            participation = new ParticipationChallenge
+                            (idUser, idChallenge, url);
+                    participation.saveParticipation();
                 }
             });
+
 
         }
     }

@@ -1,5 +1,10 @@
 package com.devandroid.fbatista.futeprototipo.dao;
 
+import com.devandroid.fbatista.futeprototipo.Keys;
+import com.devandroid.fbatista.futeprototipo.config.ConfigFirebase;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.Serializable;
 
 public class ParticipationChallenge implements Serializable {
@@ -16,11 +21,19 @@ public class ParticipationChallenge implements Serializable {
     public ParticipationChallenge() {
     }
 
-    public ParticipationChallenge(String idUser, String idChallenge, String status, String videoPath) {
+    public ParticipationChallenge(String idUser, String idChallenge, String videoPath) {
         this.idUser = idUser;
         this.idChallenge = idChallenge;
-        this.status = status;
+        this.status = STATUS_WAITING_APPROVEMENT;
         this.videoPath = videoPath;
+    }
+
+    public void saveParticipation(){
+
+        DatabaseReference dbRef = ConfigFirebase.getFirebaseDatabase().child(Keys.KEY_USERS)
+                .child(idUser).child(Keys.KEY_USER_PARTICIPATION).child(idChallenge);
+        dbRef.setValue(this);
+
     }
 
     public String getIdUser() {

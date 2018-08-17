@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import com.devandroid.fbatista.futeprototipo.Keys;
 import com.devandroid.fbatista.futeprototipo.R;
 import com.devandroid.fbatista.futeprototipo.RecyclerItemClickListener;
 import com.devandroid.fbatista.futeprototipo.adapters.SelectChallengeAdapter;
@@ -16,6 +17,7 @@ import com.devandroid.fbatista.futeprototipo.config.ConfigFirebase;
 import com.devandroid.fbatista.futeprototipo.dao.Challenge;
 import com.devandroid.fbatista.futeprototipo.dao.ChallengeForShowing;
 import com.devandroid.fbatista.futeprototipo.dao.ParticipationChallenge;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -64,13 +66,17 @@ public class SelectChallengeActivity extends AppCompatActivity {
         //Set the list of challenges
         challenges = new ArrayList<>();
 
-        dbRefChallenges = FirebaseDatabase.getInstance().getReference().child("challenges");
+        dbRefChallenges = ConfigFirebase.getFirebaseDatabase().child(Keys.KEY_CHALLENGES);
+
+        
+
 
         dbRefChallenges.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //Download the participations that the user has participated in order to fill the status field in the recycler view
                 HashMap<String, ParticipationChallenge> participations = downloadParticipation();
+
 
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     ChallengeForShowing challenge = data.getValue(ChallengeForShowing.class);
@@ -138,8 +144,8 @@ public class SelectChallengeActivity extends AppCompatActivity {
     private HashMap<String, ParticipationChallenge> downloadParticipation() {
 
         final HashMap<String, ParticipationChallenge> participations = new HashMap<>();
-
-        DatabaseReference dbRef = ConfigFirebase.getFirebaseDatabase().child("fernando").child(KEY_PARTICIPATIONS);
+        final String idUser = mAuth.getCurrentUser().getUid();
+        DatabaseReference dbRef = ConfigFirebase.getFirebaseDatabase().child(Keys.KEY_USERS).child(idUser).child(KEY_PARTICIPATIONS);
 
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -157,6 +163,16 @@ public class SelectChallengeActivity extends AppCompatActivity {
 
         return participations;
 
+    }
+
+    private void readChallenges(final FirebaseCallback firebaseCallback){
+
+        
+
+    }
+
+    private interface FirebaseCallback{
+        void onCallback(HashMap<String, ParticipationChallenge> participations);
     }
 
     public void buttonLogoutClick(View view) {
