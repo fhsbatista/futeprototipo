@@ -1,9 +1,11 @@
 package com.devandroid.fbatista.futeprototipo.activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.*;
+//import android.util.Config;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,6 +38,8 @@ public class SelectChallengeActivity extends AppCompatActivity {
     private static final String TAG = SelectChallengeActivity.class.getSimpleName();
     private static final String KEY_CHALLENGES = "challenges";
     private static final String KEY_PARTICIPATIONS = "participations";
+
+    private HashMap<String, ParticipationChallenge> participations = new HashMap<>();
 
     private RecyclerView mRecyclerView;
     private SelectChallengeAdapter adapter;
@@ -75,7 +79,12 @@ public class SelectChallengeActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //Download the participations that the user has participated in order to fill the status field in the recycler view
-                HashMap<String, ParticipationChallenge> participations = downloadParticipation();
+                readParticipations(new FirebaseCallback() {
+                    @Override
+                    public void onCallback(HashMap<String, ParticipationChallenge> participations) {
+                        SelectChallengeActivity.this.participations = participations;
+                    }
+                });
 
 
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
@@ -165,9 +174,32 @@ public class SelectChallengeActivity extends AppCompatActivity {
 
     }
 
-    private void readChallenges(final FirebaseCallback firebaseCallback){
+    private void readParticipations(final FirebaseCallback firebaseCallback){
 
-        
+        final HashMap<String, ParticipationChallenge> participations = new HashMap<>();
+
+        String idUser = ConfigFirebase.getAuth().getCurrentUser().getUid();
+        DatabaseReference ref = ConfigFirebase.getFirebaseDatabase()
+                .child(Keys.KEY_USERS).child(idUser).child(Keys.KEY_USER_PARTICIPATION);
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot data : dataSnapshot.getChildren()){
+                    ParticipationChallenge part = data.getValue(ParticipationChallenge.class);
+                    participations.put(part.getIdChallenge(), part);
+                }
+                firebaseCallback.onCallback(participations);
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
