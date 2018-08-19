@@ -9,10 +9,10 @@ import java.io.Serializable;
 
 public class ParticipationChallenge extends Challenge implements Serializable {
 
-    public static final String STATUS_WAITING_APPROVEMENT = "Aguardando Aprovaçao";
-    public static final String STATUS_REJECTED = "Participaçao nao Aprovada";
-    public static final String STATUS_APPROVED = "Participaçao Aprovada";
-    public static final String STATUS_NOT_STARTED = "Sem participaçao";
+    public static final String STATUS_WAITING_APPROVEMENT = "STATUS_WAITING_APPROVEMENT";
+    public static final String STATUS_REJECTED = "STATUS_REJECTED";
+    public static final String STATUS_APPROVED = "STATUS_APPROVED";
+    public static final String STATUS_NOT_STARTED = "STATUS_NOT_STARTED";
 
     private String idUser;
     private String idChallenge;
@@ -25,7 +25,7 @@ public class ParticipationChallenge extends Challenge implements Serializable {
     public ParticipationChallenge(String idUser, String idChallenge, String videoPath) {
         this.idUser = idUser;
         this.idChallenge = idChallenge;
-        this.status = STATUS_WAITING_APPROVEMENT;
+        this.status = "STATUS_WAITING_APPROVEMENT";
         this.videoPath = videoPath;
     }
 
