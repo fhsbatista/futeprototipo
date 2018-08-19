@@ -1,5 +1,6 @@
 package com.devandroid.fbatista.futeprototipo.adapters;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,8 +9,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.devandroid.fbatista.futeprototipo.R;
+import com.devandroid.fbatista.futeprototipo.activities.SelectChallengeActivity;
 import com.devandroid.fbatista.futeprototipo.dao.Challenge;
 import com.devandroid.fbatista.futeprototipo.dao.ChallengeForShowing;
+import com.devandroid.fbatista.futeprototipo.dao.ParticipationChallenge;
 
 import org.w3c.dom.Text;
 
@@ -17,9 +20,9 @@ import java.util.List;
 
 public class SelectChallengeAdapter extends RecyclerView.Adapter<SelectChallengeAdapter.ViewHolder> {
 
-    private List<ChallengeForShowing> mChallenges;
+    private List<ParticipationChallenge> mChallenges;
 
-    public SelectChallengeAdapter(List<ChallengeForShowing> challenges){
+    public SelectChallengeAdapter(List<ParticipationChallenge> challenges){
         this.mChallenges = challenges;
     }
 
@@ -39,20 +42,36 @@ public class SelectChallengeAdapter extends RecyclerView.Adapter<SelectChallenge
     public void onBindViewHolder(@NonNull SelectChallengeAdapter.ViewHolder holder, int position) {
 
 
-        ChallengeForShowing challenge = this.mChallenges.get(position);
+        ParticipationChallenge challenge = this.mChallenges.get(position);
 
         holder.title.setText(challenge.getTitle());
         holder.level.setText(String.valueOf(challenge.getLevel()));
-        holder.status.setText(challenge.getStatus());
 
 
+        switch (challenge.getStatus()) {
+            case "STATUS_APPROVED" :
+                holder.status.setTextColor(Color.parseColor("#00c853"));
+                holder.status.setText("Aprovado");
+                break;
 
+            case "STATUS_WAITING_APPROVEMENT" :
+                holder.status.setTextColor(Color.parseColor("#ff6d00"));
+                holder.status.setText("Aguardando Aprovaçao");
+                break;
 
+            case "STATUS_REJECTED" :
+                holder.status.setTextColor(Color.parseColor("#ff1744"));
+                holder.status.setText("Nao aprovado");
+                break;
 
-
-
-
+            case "STATUS_NOT_STARTED" :
+                holder.status.setTextColor(Color.parseColor("#0091ea"));
+                holder.status.setText("Nao iniciado");
+                break;
+        }
     }
+
+
 
     @Override
     public int getItemCount() {

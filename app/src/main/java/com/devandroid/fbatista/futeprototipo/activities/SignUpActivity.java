@@ -66,7 +66,7 @@ public class SignUpActivity extends AppCompatActivity {
                                         }catch (FirebaseAuthInvalidCredentialsException e){
                                             errorMessage = "Digite um e-mail valido";
                                         }catch(FirebaseAuthUserCollisionException e){
-                                            errorMessage = "Ja exite um cadastro com e-mail informado";
+                                            errorMessage = "Ja existe um cadastro com e-mail informado";
                                         }catch (Exception e){
                                             errorMessage = e.getMessage();
                                             e.printStackTrace();
@@ -79,6 +79,8 @@ public class SignUpActivity extends AppCompatActivity {
                                         User user = new User(idUser, name, email);
                                         user.create();
                                         startActivity(new Intent(SignUpActivity.this, SelectChallengeActivity.class));
+                                        finish();
+
                                     }
                                 }
                             });
