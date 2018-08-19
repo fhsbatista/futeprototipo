@@ -33,11 +33,11 @@ public class ChallengeActivity extends AppCompatActivity {
     private String idChallenge;
     private String videoName;
 
-    private ParticipationChallenge participation;
     private FirebaseStorage storage;
     private StorageReference reference;
     private StorageReference userRef;
     private FirebaseAuth mAuth;
+    private ParticipationChallenge challenge;
 
 
     @Override
@@ -48,7 +48,7 @@ public class ChallengeActivity extends AppCompatActivity {
 
         //Retrieve data from previous activity
         Bundle bundle = getIntent().getExtras();
-        Challenge challenge = (Challenge) bundle.getSerializable(SelectChallengeActivity.KEY_EXTRA_CHALLENGE);
+        challenge = (ParticipationChallenge) bundle.getSerializable(SelectChallengeActivity.KEY_EXTRA_CHALLENGE);
 
         //Set the authentication information
         mAuth = ConfigFirebase.getAuth();
@@ -107,9 +107,7 @@ public class ChallengeActivity extends AppCompatActivity {
                     //Setting object model of the participation
                     //Get the url of the video which has been uploaded
                     String url = taskSnapshot.getDownloadUrl().toString();
-                            participation = new ParticipationChallenge
-                            (idUser, idChallenge, url);
-                    participation.saveParticipation();
+                    challenge.saveParticipation();
                 }
             });
 
