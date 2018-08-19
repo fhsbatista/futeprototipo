@@ -25,12 +25,14 @@ public class ParticipationChallenge extends Challenge implements Serializable {
     public ParticipationChallenge(String idUser, String idChallenge, String videoPath) {
         this.idUser = idUser;
         this.idChallenge = idChallenge;
-        this.status = "STATUS_WAITING_APPROVEMENT";
+        this.status = STATUS_NOT_STARTED;
         this.videoPath = videoPath;
     }
 
-    public void saveParticipation(){
 
+
+    public void saveParticipation(){
+        this.status = "STATUS_WAITING_APPROVEMENT";
         DatabaseReference dbRef = ConfigFirebase.getFirebaseDatabase().child(Keys.KEY_USERS)
                 .child(idUser).child(Keys.KEY_USER_PARTICIPATION).child(idChallenge);
         dbRef.setValue(this);

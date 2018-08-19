@@ -72,6 +72,7 @@ public class SelectChallengeActivity extends AppCompatActivity {
                 challenges.clear();
                 for(DataSnapshot data : dataSnapshot.getChildren()){
                     ParticipationChallenge part = data.getValue(ParticipationChallenge.class);
+                    part.setIdUser(mAuth.getCurrentUser().getUid());
                     challenges.add(part);
                     adapter.notifyDataSetChanged();
                 }
