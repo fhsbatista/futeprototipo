@@ -3,10 +3,12 @@ package com.devandroid.fbatista.futeprototipo.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -15,7 +17,9 @@ import com.devandroid.fbatista.futeprototipo.R;
 import com.devandroid.fbatista.futeprototipo.config.ConfigFirebase;
 import com.devandroid.fbatista.futeprototipo.dao.Challenge;
 import com.devandroid.fbatista.futeprototipo.dao.ParticipationChallenge;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -30,6 +34,8 @@ public class ChallengeActivity extends AppCompatActivity {
     private TextView mTextViewDescription;
     private TextView mTextViewLevel;
     private VideoView mVideoViewVideo;
+    private ProgressBar mProgressBar;
+
     private String idUser;
     private String idChallenge;
     private String videoName;
@@ -59,7 +65,7 @@ public class ChallengeActivity extends AppCompatActivity {
         mTextViewDescription = findViewById(R.id.tv_description);
         mTextViewLevel = findViewById(R.id.tv_level);
         mVideoViewVideo = findViewById(R.id.vv_video);
-
+        mProgressBar = findViewById(R.id.pb_percent_uploaded);
 
 
         mTextViewTitle.setText(challenge.getTitle());
@@ -119,6 +125,21 @@ public class ChallengeActivity extends AppCompatActivity {
                     long percent = 100 * transferredBytes / totalBytes;
                     Toast.makeText(ChallengeActivity.this, String.valueOf(percent), Toast.LENGTH_SHORT).show();
 
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    mProgressBar.setVisibility(View.VISIBLE);
+                    long totalBytes = taskSnapshot.getTotalByteCount();
+                    long transferredBytes = taskSnapshot.getBytesTransferred();
+                    long percent = 100 * transferredBytes / totalBytes;
+                    mProgressBar.setMax(100);
+                    mProgressBar.setProgress((int) percent);
+                }
+            }).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    finish();
                 }
             });
 
