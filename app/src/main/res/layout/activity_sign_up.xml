@@ -9,6 +9,15 @@
     android:padding="16dp"
     tools:context=".activities.SignUpActivity">
 
+    <ProgressBar
+        android:id="@+id/pb_signup"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        tools:visibility="visible"
+        />
+
     <EditText
         android:id="@+id/et_name"
         android:layout_width="match_parent"
