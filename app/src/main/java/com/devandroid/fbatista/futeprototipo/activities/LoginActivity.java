@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mEmail, mPassword;
     private Button mLogin;
     private TextView mSignUp;
+    private ProgressBar mProgressBar;
 
     private FirebaseAuth mAuth;
 
@@ -46,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         mPassword = findViewById(R.id.et_senha);
         mLogin = findViewById(R.id.bt_login);
         mSignUp = findViewById(R.id.tv_signup);
+        mProgressBar = findViewById(R.id.pb_login);
 
         mAuth = ConfigFirebase.getAuth();
 
@@ -67,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
                 KeyboardHelper.hideKeyBoard(LoginActivity.this);
                 String email = mEmail.getText().toString();
                 String password = mPassword.getText().toString();
@@ -76,12 +80,14 @@ public class LoginActivity extends AppCompatActivity {
                     //Show the keyboard for the user
                     KeyboardHelper.showKeyboard(LoginActivity.this);
                 } else {
+                    showProgressBar();
 
                     mAuth.signInWithEmailAndPassword(email, password)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if(!task.isSuccessful()){
+                                        hideProgressBar();
                                         String mensagemErro = "";
                                         try{
                                             throw task.getException();
@@ -112,7 +118,21 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void showProgressBar() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        mEmail.setVisibility(View.GONE);
+        mPassword.setVisibility(View.GONE);
+        mLogin.setVisibility(View.GONE);
+        mSignUp.setVisibility(View.GONE);
+    }
 
+    private void hideProgressBar(){
+        mProgressBar.setVisibility(View.GONE);
+        mEmail.setVisibility(View.VISIBLE);
+        mPassword.setVisibility(View.VISIBLE);
+        mLogin.setVisibility(View.VISIBLE);
+        mSignUp.setVisibility(View.VISIBLE);
+    }
 
 
 }

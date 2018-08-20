@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.devandroid.fbatista.futeprototipo.R;
@@ -17,6 +18,7 @@ import com.devandroid.fbatista.futeprototipo.dao.ParticipationChallenge;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -27,7 +29,6 @@ public class ChallengeActivity extends AppCompatActivity {
     private TextView mTextViewTitle;
     private TextView mTextViewDescription;
     private TextView mTextViewLevel;
-    private Button mButtonRecord;
     private VideoView mVideoViewVideo;
     private String idUser;
     private String idChallenge;
@@ -57,7 +58,6 @@ public class ChallengeActivity extends AppCompatActivity {
         mTextViewTitle = findViewById(R.id.tv_title);
         mTextViewDescription = findViewById(R.id.tv_description);
         mTextViewLevel = findViewById(R.id.tv_level);
-        mButtonRecord = findViewById(R.id.bt_gravar);
         mVideoViewVideo = findViewById(R.id.vv_video);
 
 
@@ -107,7 +107,18 @@ public class ChallengeActivity extends AppCompatActivity {
                     //Setting object model of the participation
                     //Get the url of the video which has been uploaded
                     String url = taskSnapshot.getDownloadUrl().toString();
+                    challenge.setVideoPath(url);
                     challenge.saveParticipation();
+                    Toast.makeText(ChallengeActivity.this, "Finalizado", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    long totalBytes = taskSnapshot.getTotalByteCount();
+                    long transferredBytes = taskSnapshot.getBytesTransferred();
+                    long percent = 100 * transferredBytes / totalBytes;
+                    Toast.makeText(ChallengeActivity.this, String.valueOf(percent), Toast.LENGTH_SHORT).show();
+
                 }
             });
 
