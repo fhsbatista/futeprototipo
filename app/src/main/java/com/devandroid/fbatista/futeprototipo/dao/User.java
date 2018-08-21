@@ -18,6 +18,7 @@ public class User implements Serializable{
     private String idUser;
     private String name;
     private String email;
+    private Long score;
 
     public User(){}
 
@@ -26,6 +27,7 @@ public class User implements Serializable{
         this.idUser = idUser;
         this.name = name;
         this.email = email;
+        this.score = 0L;
     }
 
     public void create(){
@@ -63,6 +65,14 @@ public class User implements Serializable{
 
 
 
+    }
+
+    public Long getScore() {
+        return score;
+    }
+
+    public void setScore(Long score) {
+        this.score = score;
     }
 
     public String getIdUser() {

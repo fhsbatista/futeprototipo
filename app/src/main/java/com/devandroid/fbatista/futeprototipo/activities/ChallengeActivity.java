@@ -10,13 +10,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.devandroid.fbatista.futeprototipo.R;
 import com.devandroid.fbatista.futeprototipo.config.ConfigFirebase;
-import com.devandroid.fbatista.futeprototipo.dao.Challenge;
 import com.devandroid.fbatista.futeprototipo.dao.ParticipationChallenge;
+import com.devandroid.fbatista.futeprototipo.helper.ScoreHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -108,7 +107,6 @@ public class ChallengeActivity extends AppCompatActivity {
             UploadTask uploadTask = userRef.child(idChallenge).child(videoName).putFile(videoUri);
 
 
-
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -116,6 +114,7 @@ public class ChallengeActivity extends AppCompatActivity {
                     //Get the url of the video which has been uploaded
                     String url = taskSnapshot.getDownloadUrl().toString();
                     challenge.saveParticipation();
+                    ScoreHelper.updateScore(ScoreHelper.SCORE_FIRST_SENT_CHALLENGE);
                 }
             }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                 @Override
