@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = ConfigFirebase.getAuth();
 
         //The user will be logged out if he is already logged in, this is temporaly
-        mAuth.signOut();
+//        mAuth.signOut();
 
         //Object to manipulate the user's keyboard
         InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);

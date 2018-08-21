@@ -7,6 +7,9 @@
     android:orientation="vertical"
     tools:context=".activities.SelectChallengeActivity">
 
+    <include
+        layout="@layout/toolbar"/>
+
     <Button
         android:id="@+id/bt_logout"
         android:layout_width="match_parent"
