@@ -36,23 +36,46 @@ public class User implements Serializable{
         dbRefUser.setValue(this);
 
 
-        final List<ParticipationChallenge> list = new ArrayList<>();
-        final DatabaseReference dbRefChallenges = ConfigFirebase.getFirebaseDatabase().child(Keys.KEY_CHALLENGES);
+        final List<ParticipationChallenge> partList = new ArrayList<>();
+        final List<Achievement> achList = new ArrayList<>();
 
+        final DatabaseReference dbRefChallenges = ConfigFirebase.getFirebaseDatabase().child(Keys.KEY_CHALLENGES);
+        final DatabaseReference dbRefAchievements = ConfigFirebase.getFirebaseDatabase().child(Keys.KEY_ACHIEVEMENTS);
         dbRefChallenges.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot data : dataSnapshot.getChildren()){
                     ParticipationChallenge participationChallenge = data.getValue(ParticipationChallenge.class);
                     participationChallenge.setStatus(ParticipationChallenge.STATUS_NOT_STARTED);
-                    list.add(participationChallenge);
+                    partList.add(participationChallenge);
                 }
 
-                for(ParticipationChallenge part : list){
+                for(ParticipationChallenge part : partList){
                     dbRefUser.child(Keys.KEY_USER_PARTICIPATION).child(part.getIdChallenge())
                             .setValue(part);
 
                 }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        dbRefAchievements.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot data : dataSnapshot.getChildren()){
+                    Achievement achievement = data.getValue(Achievement.class);
+                    achList.add(achievement);
+                }
+
+                for(Achievement ach : achList){
+                    dbRefUser.child(Keys.KEY_ACHIEVEMENTS).child(ach.getId()).setValue(ach);
+                }
+
 
             }
 
