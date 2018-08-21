@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.*;
 //import android.util.Config;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -29,6 +31,8 @@ public class SelectChallengeActivity extends AppCompatActivity {
     public static final String KEY_EXTRA_CHALLENGE = "challenge";
     private static final String TAG = SelectChallengeActivity.class.getSimpleName();
 
+    private Toolbar mToolbar;
+
     private HashMap<String, ParticipationChallenge> participations = new HashMap<>();
 
     private RecyclerView mRecyclerView;
@@ -39,6 +43,29 @@ public class SelectChallengeActivity extends AppCompatActivity {
     private DatabaseReference dbRefUser;
     private DatabaseReference dbRefChallenges;
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+
+            case R.id.logout_menu :
+                mAuth.signOut();
+                startActivity(new Intent(SelectChallengeActivity.this, LoginActivity.class));
+                finish();
+
+
+        }
+
+
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +78,9 @@ public class SelectChallengeActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
 
+        //Initialize the toolbar
+        mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
 
         //Initialize the recycler view
         mRecyclerView = findViewById(R.id.rv);
