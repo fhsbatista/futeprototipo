@@ -5,5 +5,9 @@
         android:id="@+id/logout_menu"
         android:title="@string/menu_sair" />
 
+    <item
+        android:id="@+id/ranking_menu"
+        android:title="@string/menu_ranking"/>
+
 
 </menu>

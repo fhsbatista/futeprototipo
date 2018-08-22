@@ -1,6 +1,7 @@
 package com.devandroid.fbatista.futeprototipo.dao;
 
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
 
 import com.devandroid.fbatista.futeprototipo.Keys;
 import com.devandroid.fbatista.futeprototipo.config.ConfigFirebase;
@@ -13,11 +14,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class User implements Serializable{
+public class User implements Serializable, Comparable<User>{
 
     private String idUser;
     private String name;
     private String email;
+    private Long score;
 
     public User(){}
 
@@ -26,6 +28,7 @@ public class User implements Serializable{
         this.idUser = idUser;
         this.name = name;
         this.email = email;
+        this.score = 0L;
     }
 
     public void create(){
@@ -34,19 +37,20 @@ public class User implements Serializable{
         dbRefUser.setValue(this);
 
 
-        final List<ParticipationChallenge> list = new ArrayList<>();
-        final DatabaseReference dbRefChallenges = ConfigFirebase.getFirebaseDatabase().child(Keys.KEY_CHALLENGES);
+        final List<ParticipationChallenge> partList = new ArrayList<>();
 
+        final DatabaseReference dbRefChallenges = ConfigFirebase.getFirebaseDatabase().child(Keys.KEY_CHALLENGES);
+        final DatabaseReference dbRefAchievements = ConfigFirebase.getFirebaseDatabase().child(Keys.KEY_ACHIEVEMENTS);
         dbRefChallenges.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot data : dataSnapshot.getChildren()){
                     ParticipationChallenge participationChallenge = data.getValue(ParticipationChallenge.class);
                     participationChallenge.setStatus(ParticipationChallenge.STATUS_NOT_STARTED);
-                    list.add(participationChallenge);
+                    partList.add(participationChallenge);
                 }
 
-                for(ParticipationChallenge part : list){
+                for(ParticipationChallenge part : partList){
                     dbRefUser.child(Keys.KEY_USER_PARTICIPATION).child(part.getIdChallenge())
                             .setValue(part);
 
@@ -61,8 +65,14 @@ public class User implements Serializable{
         });
 
 
+    }
 
+    public Long getScore() {
+        return score;
+    }
 
+    public void setScore(Long score) {
+        this.score = score;
     }
 
     public String getIdUser() {
@@ -87,5 +97,16 @@ public class User implements Serializable{
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+
+
+    @Override
+    public int compareTo(@NonNull User o) {
+        if(this.score > o.score)
+            return -1;
+        if(this.score < o.score)
+            return 1;
+        return 0;
     }
 }

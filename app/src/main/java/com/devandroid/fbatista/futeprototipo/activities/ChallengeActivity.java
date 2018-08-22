@@ -10,13 +10,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.devandroid.fbatista.futeprototipo.R;
 import com.devandroid.fbatista.futeprototipo.config.ConfigFirebase;
-import com.devandroid.fbatista.futeprototipo.dao.Challenge;
 import com.devandroid.fbatista.futeprototipo.dao.ParticipationChallenge;
+import com.devandroid.fbatista.futeprototipo.helper.ScoreHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -106,7 +105,6 @@ public class ChallengeActivity extends AppCompatActivity {
             UploadTask uploadTask = userRef.child(idChallenge).child(videoName).putFile(videoUri);
 
 
-
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -115,16 +113,7 @@ public class ChallengeActivity extends AppCompatActivity {
                     String url = taskSnapshot.getDownloadUrl().toString();
                     challenge.setVideoPath(url);
                     challenge.saveParticipation();
-                    Toast.makeText(ChallengeActivity.this, "Finalizado", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                    long totalBytes = taskSnapshot.getTotalByteCount();
-                    long transferredBytes = taskSnapshot.getBytesTransferred();
-                    long percent = 100 * transferredBytes / totalBytes;
-                    Toast.makeText(ChallengeActivity.this, String.valueOf(percent), Toast.LENGTH_SHORT).show();
-
+                    ScoreHelper.updateScore(ScoreHelper.SCORE_FIRST_SENT_CHALLENGE);
                 }
             }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                 @Override

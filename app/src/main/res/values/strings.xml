@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">futeprototipo</string>
     <string name="menu_sair">Sair</string>
+    <string name="menu_ranking">Ranking</string>
 </resources>
