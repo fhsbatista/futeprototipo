@@ -58,6 +58,10 @@ public class SelectChallengeActivity extends AppCompatActivity {
                 mAuth.signOut();
                 startActivity(new Intent(SelectChallengeActivity.this, LoginActivity.class));
                 finish();
+                break;
+            case R.id.ranking_menu :
+                startActivity(new Intent(SelectChallengeActivity.this, RankingActivity.class));
+                break;
 
 
         }

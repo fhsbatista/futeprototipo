@@ -1,6 +1,7 @@
 package com.devandroid.fbatista.futeprototipo.dao;
 
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
 
 import com.devandroid.fbatista.futeprototipo.Keys;
 import com.devandroid.fbatista.futeprototipo.config.ConfigFirebase;
@@ -13,7 +14,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class User implements Serializable{
+public class User implements Serializable, Comparable<User>{
 
     private String idUser;
     private String name;
@@ -37,7 +38,6 @@ public class User implements Serializable{
 
 
         final List<ParticipationChallenge> partList = new ArrayList<>();
-        final List<Achievement> achList = new ArrayList<>();
 
         final DatabaseReference dbRefChallenges = ConfigFirebase.getFirebaseDatabase().child(Keys.KEY_CHALLENGES);
         final DatabaseReference dbRefAchievements = ConfigFirebase.getFirebaseDatabase().child(Keys.KEY_ACHIEVEMENTS);
@@ -63,29 +63,6 @@ public class User implements Serializable{
 
             }
         });
-
-        dbRefAchievements.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot data : dataSnapshot.getChildren()){
-                    Achievement achievement = data.getValue(Achievement.class);
-                    achList.add(achievement);
-                }
-
-                for(Achievement ach : achList){
-                    dbRefUser.child(Keys.KEY_ACHIEVEMENTS).child(ach.getId()).setValue(ach);
-                }
-
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
 
 
     }
@@ -120,5 +97,16 @@ public class User implements Serializable{
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+
+
+    @Override
+    public int compareTo(@NonNull User o) {
+        if(this.score > o.score)
+            return -1;
+        if(this.score < o.score)
+            return 1;
+        return 0;
     }
 }
