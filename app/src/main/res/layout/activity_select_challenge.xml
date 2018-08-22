@@ -22,5 +22,5 @@
         android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="22dp"/>
+        android:padding="12dp"/>
 </LinearLayout>

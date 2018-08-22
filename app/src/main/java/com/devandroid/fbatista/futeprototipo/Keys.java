@@ -7,7 +7,6 @@ public interface Keys {
     String KEY_CHALLENGES = "challenges";
     String KEY_SCORE = "score";
     String KEY_ACHIEVEMENTS = "achievements";
-    String KEY_ACHIEVEMENTS1 = "achievements";
-    String KEY_ACHIEVEMENTS2 = "achievements";
+
 
 }
