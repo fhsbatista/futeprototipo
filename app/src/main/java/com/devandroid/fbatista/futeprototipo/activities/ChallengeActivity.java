@@ -32,7 +32,6 @@ public class ChallengeActivity extends AppCompatActivity {
     private TextView mTextViewTitle;
     private TextView mTextViewDescription;
     private TextView mTextViewLevel;
-    private Button mButtonRecord;
     private VideoView mVideoViewVideo;
     private ProgressBar mProgressBar;
 
@@ -64,7 +63,6 @@ public class ChallengeActivity extends AppCompatActivity {
         mTextViewTitle = findViewById(R.id.tv_title);
         mTextViewDescription = findViewById(R.id.tv_description);
         mTextViewLevel = findViewById(R.id.tv_level);
-        mButtonRecord = findViewById(R.id.bt_gravar);
         mVideoViewVideo = findViewById(R.id.vv_video);
         mProgressBar = findViewById(R.id.pb_percent_uploaded);
 
@@ -113,6 +111,7 @@ public class ChallengeActivity extends AppCompatActivity {
                     //Setting object model of the participation
                     //Get the url of the video which has been uploaded
                     String url = taskSnapshot.getDownloadUrl().toString();
+                    challenge.setVideoPath(url);
                     challenge.saveParticipation();
                     ScoreHelper.updateScore(ScoreHelper.SCORE_FIRST_SENT_CHALLENGE);
                 }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.devandroid.fbatista.futeprototipo.R;
@@ -25,6 +26,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private EditText mName, mEmail, mPassword;
     private Button mSignUp;
+    private ProgressBar mProgressBar;
 
 
     private FirebaseAuth mAuth;
@@ -38,6 +40,7 @@ public class SignUpActivity extends AppCompatActivity {
         mEmail = findViewById(R.id.et_email);
         mPassword = findViewById(R.id.et_password);
         mSignUp = findViewById(R.id.bt_signup);
+        mProgressBar = findViewById(R.id.pb_signup);
 
         mAuth = ConfigFirebase.getAuth();
 
@@ -52,12 +55,13 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(SignUpActivity.this, "Campos digitados incorretamente", Toast.LENGTH_SHORT).show();
                     KeyboardHelper.showKeyboard(SignUpActivity.this);
                 } else{
-
+                    showProgressBar();
                     mAuth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if(!task.isSuccessful()){
+                                        hideProgressBar();
                                         String errorMessage = "";
                                         try{
                                             throw task.getException();
@@ -87,6 +91,22 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void showProgressBar() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        mName.setVisibility(View.GONE);
+        mEmail.setVisibility(View.GONE);
+        mPassword.setVisibility(View.GONE);
+        mSignUp.setVisibility(View.GONE);
+    }
+
+    private void hideProgressBar(){
+        mProgressBar.setVisibility(View.GONE);
+        mName.setVisibility(View.VISIBLE);
+        mEmail.setVisibility(View.VISIBLE);
+        mPassword.setVisibility(View.VISIBLE);
+        mSignUp.setVisibility(View.VISIBLE);
     }
 
 
