@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.devandroid.fbatista.futeprototipo.Keys;
 import com.devandroid.fbatista.futeprototipo.R;
@@ -138,9 +139,26 @@ public class SelectChallengeActivity extends AppCompatActivity {
 
                             @Override
                             public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), ChallengeActivity.class);
-                                intent.putExtra(KEY_EXTRA_CHALLENGE, challenges.get(position));
-                                startActivity(intent);
+
+                                String challengeStatus = challenges.get(position).getStatus();
+                                switch (challengeStatus){
+
+                                    case ParticipationChallenge.STATUS_APPROVED :
+                                        Toast.makeText(SelectChallengeActivity.this, "Voce ja foi aprovado neste desafio", Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case ParticipationChallenge.STATUS_WAITING_APPROVEMENT :
+                                        Toast.makeText(SelectChallengeActivity.this, "Voce ja esta sendo avaliado para este desafio, aguarde o resultado", Toast.LENGTH_SHORT).show();
+                                        break;
+                                    default :
+                                        Intent intent = new Intent(getApplicationContext(), ChallengeActivity.class);
+                                        intent.putExtra(KEY_EXTRA_CHALLENGE, challenges.get(position));
+                                        startActivity(intent);
+                                        break;
+
+
+
+                                }
+
                             }
 
                             @Override
@@ -155,6 +173,7 @@ public class SelectChallengeActivity extends AppCompatActivity {
                         }) {
                 });
     }
+
 
     private void showProgressBar() {
         mProgressBar.setVisibility(View.VISIBLE);
