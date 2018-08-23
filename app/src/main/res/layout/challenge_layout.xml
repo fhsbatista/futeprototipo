@@ -53,6 +53,9 @@
             app:layout_constraintBaseline_toBaselineOf="@+id/textView2"
             app:layout_constraintStart_toEndOf="@+id/textView2" />
 
+
+
+
         <TextView
             android:id="@+id/tv_challenge_status"
             android:layout_width="0dp"
@@ -63,7 +66,6 @@
             android:background="@drawable/challenge_status_shape"
             android:textColor="@android:color/white"
             android:gravity="center"
-            android:text="Aguardando"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"

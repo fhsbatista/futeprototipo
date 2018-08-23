@@ -2,6 +2,7 @@ package com.devandroid.fbatista.futeprototipo.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
@@ -52,22 +53,22 @@ public class SelectChallengeAdapter extends RecyclerView.Adapter<SelectChallenge
 
         switch (challenge.getStatus()) {
             case "STATUS_APPROVED" :
-                holder.status.setBackgroundColor(Color.parseColor("#00c853"));
+                holder.status.getContext().getDrawable(R.drawable.challenge_status_shape).setTint(Color.parseColor("#00c853"));
                 holder.status.setText("Aprovado");
                 break;
 
             case "STATUS_WAITING_APPROVEMENT" :
-                holder.status.setBackgroundColor(Color.parseColor("#ff6d00"));
+                holder.status.getContext().getDrawable(R.drawable.challenge_status_shape).setTint(Color.parseColor("#ff6d00"));
                 holder.status.setText("Aguardando");
                 break;
 
             case "STATUS_REJECTED" :
-                holder.status.setBackgroundColor(Color.parseColor("#ff1744"));
+                holder.status.getContext().getDrawable(R.drawable.challenge_status_shape).setTint(Color.parseColor("#ff1744"));
                 holder.status.setText("Nao aprovado");
                 break;
 
             case "STATUS_NOT_STARTED" :
-                holder.status.setBackgroundColor(Color.parseColor("#0091ea"));
+                holder.status.getContext().getDrawable(R.drawable.challenge_status_shape).setTint(Color.parseColor("#0091ea"));
                 holder.status.setText("Nao iniciado");
                 break;
         }
