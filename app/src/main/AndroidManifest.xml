@@ -21,7 +21,8 @@
         <activity android:name=".activities.SelectChallengeActivity" />
         <activity android:name=".activities.ChallengeActivity" />
         <activity android:name=".activities.SignUpActivity" />
-        <activity android:name=".activities.RankingActivity"></activity>
+        <activity android:name=".activities.RankingActivity" />
+        <activity android:name=".activities.ApprovementActivity"></activity>
     </application>
 
 </manifest>
