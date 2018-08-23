@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ProgressBar;
 
 import com.devandroid.fbatista.futeprototipo.Keys;
 import com.devandroid.fbatista.futeprototipo.R;
@@ -32,6 +33,7 @@ public class SelectChallengeActivity extends AppCompatActivity {
     private static final String TAG = SelectChallengeActivity.class.getSimpleName();
 
     private Toolbar mToolbar;
+    private ProgressBar mProgressBar;
 
     private HashMap<String, ParticipationChallenge> participations = new HashMap<>();
 
@@ -76,7 +78,7 @@ public class SelectChallengeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_challenge);
 
-        //Este e um teste
+
 
         //Get the current user
         mAuth = FirebaseAuth.getInstance();
@@ -88,6 +90,10 @@ public class SelectChallengeActivity extends AppCompatActivity {
 
         //Initialize the recycler view
         mRecyclerView = findViewById(R.id.rv);
+
+        //Initialize the progress bar
+        mProgressBar = findViewById(R.id.pb_challenges);
+        showProgressBar();
 
         //Set the layout manager
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -110,6 +116,8 @@ public class SelectChallengeActivity extends AppCompatActivity {
                     challenges.add(part);
                     adapter.notifyDataSetChanged();
                 }
+
+                hideProgressBar();
             }
 
             @Override
@@ -146,6 +154,16 @@ public class SelectChallengeActivity extends AppCompatActivity {
                             }
                         }) {
                 });
+    }
+
+    private void showProgressBar() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        mRecyclerView.setVisibility(View.GONE);
+    }
+
+    private void hideProgressBar(){
+        mProgressBar.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
     }
 
     public void buttonLogoutClick(View view) {
