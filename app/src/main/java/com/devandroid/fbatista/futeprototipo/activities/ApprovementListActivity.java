@@ -57,31 +57,8 @@ public class ApprovementListActivity extends AppCompatActivity {
 
         //Set the database's reference
         mReference = ConfigFirebase.getFirebaseDatabase().child(Keys.KEY_USERS);
+        fillChallengesList();
 
-        //Fetch request in order to get the challenges participations which are waiting for approvement
-        mReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot data : dataSnapshot.getChildren()){
-                    for(DataSnapshot dataPart : data.child(Keys.KEY_USER_PARTICIPATION).getChildren()){
-                        ParticipationChallenge participationChallenge = dataPart.getValue(ParticipationChallenge.class);
-                        if(participationChallenge.getStatus().equals(ParticipationChallenge.STATUS_WAITING_APPROVEMENT)){
-                            participationChallenge.setNomeUser((String) data.child("name").getValue().toString());
-                            mApprovementChallengeList.add(participationChallenge);
-                            mAdapter.notifyDataSetChanged();
-
-                        }
-                    }
-
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(
                 this, mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
@@ -111,5 +88,38 @@ public class ApprovementListActivity extends AppCompatActivity {
 
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fillChallengesList();
+    }
+
+    private void fillChallengesList() {
+        //Fetch request in order to get the challenges participations which are waiting for approvement
+        mReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot data : dataSnapshot.getChildren()){
+                    for(DataSnapshot dataPart : data.child(Keys.KEY_USER_PARTICIPATION).getChildren()){
+                        ParticipationChallenge participationChallenge = dataPart.getValue(ParticipationChallenge.class);
+                        if(participationChallenge.getStatus().equals(ParticipationChallenge.STATUS_WAITING_APPROVEMENT)){
+                            participationChallenge.setNomeUser((String) data.child("name").getValue().toString());
+                            mApprovementChallengeList.add(participationChallenge);
+                            mAdapter.notifyDataSetChanged();
+
+                        }
+                    }
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
