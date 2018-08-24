@@ -67,7 +67,7 @@ public class SelectChallengeActivity extends AppCompatActivity {
                 break;
 
             case R.id.approvement_menu :
-                startActivity(new Intent(SelectChallengeActivity.this, ApprovementActivity.class));
+                startActivity(new Intent(SelectChallengeActivity.this, ApprovementListActivity.class));
                 break;
 
 
