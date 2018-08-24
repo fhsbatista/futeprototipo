@@ -14,10 +14,15 @@ public class ParticipationChallenge extends Challenge implements Serializable {
     public static final String STATUS_APPROVED = "STATUS_APPROVED";
     public static final String STATUS_NOT_STARTED = "STATUS_NOT_STARTED";
 
+    //This property is only used when it's needed to get the name of the user
+    //It is only used in the ApprovementChallengeAdapter and Approvement Activity so far
+    private String nomeUser;
+
     private String idUser;
     private String idChallenge;
     private String videoPath;
     private String status;
+    private String description;
 
     public ParticipationChallenge() {
     }
@@ -27,6 +32,7 @@ public class ParticipationChallenge extends Challenge implements Serializable {
         this.idChallenge = idChallenge;
         this.status = STATUS_NOT_STARTED;
         this.videoPath = videoPath;
+
     }
 
 
@@ -38,6 +44,25 @@ public class ParticipationChallenge extends Challenge implements Serializable {
         dbRef.setValue(this);
 
     }
+
+    public String getNomeUser() {
+        return nomeUser;
+    }
+
+    public void setNomeUser(String nomeUser) {
+        this.nomeUser = nomeUser;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
     public String getIdUser() {
         return idUser;

@@ -9,5 +9,9 @@
         android:id="@+id/ranking_menu"
         android:title="@string/menu_ranking"/>
 
+    <item
+        android:id="@+id/approvement_menu"
+        android:title="@string/menu_approvement"/>
+
 
 </menu>
