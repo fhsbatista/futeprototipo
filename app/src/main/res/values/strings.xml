@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">futeprototipo</string>
+    <string name="app_name">Kraks</string>
     <string name="menu_sair">Sair</string>
     <string name="menu_ranking">Ranking</string>
     <string name="menu_approvement">Aprovaçao de videos</string>
+    <string name="facebook_app_id">1995802567139290</string>
+    <string name="fb_login_protocol_scheme">fb1995802567139290</string>
 </resources>
