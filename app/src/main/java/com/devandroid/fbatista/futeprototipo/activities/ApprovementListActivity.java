@@ -32,6 +32,7 @@ public class ApprovementListActivity extends AppCompatActivity {
     private DatabaseReference mReference;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +58,6 @@ public class ApprovementListActivity extends AppCompatActivity {
 
         //Set the database's reference
         mReference = ConfigFirebase.getFirebaseDatabase().child(Keys.KEY_USERS);
-        fillChallengesList();
 
 
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(
@@ -93,12 +93,13 @@ public class ApprovementListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        mApprovementChallengeList.clear();
         fillChallengesList();
     }
 
     private void fillChallengesList() {
         //Fetch request in order to get the challenges participations which are waiting for approvement
-        mReference.addValueEventListener(new ValueEventListener() {
+        mReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot data : dataSnapshot.getChildren()){
