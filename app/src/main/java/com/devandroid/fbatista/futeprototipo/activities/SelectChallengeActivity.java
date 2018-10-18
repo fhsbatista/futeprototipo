@@ -85,13 +85,14 @@ public class SelectChallengeActivity extends AppCompatActivity {
 
 
 
+
         //Get the current user
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
 
-        //Initialize the toolbar
-        mToolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
+//        //Initialize the toolbar
+//        mToolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(mToolbar);
 
         //Initialize the recycler view
         mRecyclerView = findViewById(R.id.rv);

@@ -59,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getSupportActionBar().hide();
 
 
         mEmail = findViewById(R.id.et_email);
@@ -144,6 +145,7 @@ public class LoginActivity extends AppCompatActivity {
                                     } else{
                                         if (mAuth.getCurrentUser() != null) {
                                             startActivity(new Intent(LoginActivity.this, SelectChallengeActivity.class));
+                                            finish();
                                         }
                                     }
                                 }
@@ -156,6 +158,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void signInCredential(final AuthCredential credential) {
+        showProgressBar();
 
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -167,6 +170,7 @@ public class LoginActivity extends AppCompatActivity {
                             Profile profile = Profile.getCurrentProfile();
                             User user = new User(idUsuario, profile.getName(), firebaseUser.getEmail());
                             user.create();
+                            finish();
                             startActivity(new Intent(LoginActivity.this, SelectChallengeActivity.class));
                         }else{
                             Toast.makeText(LoginActivity.this, "Somenthing happened", Toast.LENGTH_SHORT).show();
@@ -181,6 +185,7 @@ public class LoginActivity extends AppCompatActivity {
         mPassword.setVisibility(View.GONE);
         mLogin.setVisibility(View.GONE);
         mSignUp.setVisibility(View.GONE);
+        mLoginFacebookButton.setVisibility(View.GONE);
     }
 
     private void hideProgressBar(){
@@ -189,6 +194,8 @@ public class LoginActivity extends AppCompatActivity {
         mPassword.setVisibility(View.VISIBLE);
         mLogin.setVisibility(View.VISIBLE);
         mSignUp.setVisibility(View.VISIBLE);
+        mLoginFacebookButton.setVisibility(View.VISIBLE);
+
     }
 
 

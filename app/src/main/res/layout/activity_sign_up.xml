@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@color/colorPrimaryDark"
     android:gravity="center"
+    android:orientation="vertical"
     android:padding="16dp"
     tools:context=".activities.SignUpActivity">
 
@@ -15,34 +16,39 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        tools:visibility="visible"
-        />
+        tools:visibility="visible" />
 
     <EditText
         android:id="@+id/et_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Digite um nome de usuario"
-        />
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white" />
 
     <EditText
         android:id="@+id/et_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Informe seu e-mail"
-        android:inputType="textEmailAddress"/>
+        android:inputType="textEmailAddress"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white" />
 
     <EditText
         android:id="@+id/et_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Informe uma senha"
-        android:inputType="textPassword"/>
+        android:inputType="textPassword"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white" />
 
     <Button
         android:id="@+id/bt_signup"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Registrar"/>
+        android:background="@color/colorPrimary"
+        android:text="Registrar" />
 
 </LinearLayout>
